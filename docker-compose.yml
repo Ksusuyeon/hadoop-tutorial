@@ -1,0 +1,89 @@
+version: "3"
+
+services:
+  # namenode
+  namenode01:
+    image: hadoop-namenode:latest
+    container_name: namenode01
+    hostname: namenode01
+    restart: always
+    ports:
+      - "9870:9870"
+      - "9867:9867"
+    volumes:
+      - ./data/namenode:/opt/hadoop/dfs/name
+      - ./data/tmp:/tmp
+    networks:
+      - bridge
+
+  namenode02:
+    image: hadoop-namenode:latest
+    container_name: namenode02
+    hostname: namenode02
+    restart: always
+    ports:
+      - "9870:9870"
+      - "9868:9868"
+    volumes:
+      - ./data/namenode:/opt/hadoop/dfs/name
+      - ./data/tmp:/tmp
+    networks:
+      - bridge
+
+  # resource manager
+  # resourcemanager:
+  #   image: hadoop-resourcemanager:latest
+  #   container_name: resourcemanager
+  #   hostname: resourcemanager
+  #   restart: always
+  #   ports:
+  #     - "8088:8088"
+  #   networks:
+  #     - bridge
+  
+  # datanode & nodemanager
+  datanode01:
+    image: hadoop-datanode:latest
+    container_name: datanode01
+    hostname: datanode01
+    restart: always
+    volumes:
+      - ./data/datanode01:/opt/hadoop/dfs/data
+      - ./data/yarndata01:/opt/hadoop/yarn/data
+    networks:
+      - bridge
+
+  datanode02:
+    image: hadoop-datanode:latest
+    container_name: datanode02
+    hostname: datanode02
+    restart: always
+    volumes:
+      - ./data/datanode02:/opt/hadoop/dfs/data
+      - ./data/yarndata02:/opt/hadoop/yarn/data
+    networks:
+      - bridge
+
+  datanode03:
+    image: hadoop-datanode:latest
+    container_name: datanode03
+    hostname: datanode03
+    restart: always
+    volumes:
+      - ./data/datanode03:/opt/hadoop/dfs/data
+      - ./data/yarndata03:/opt/hadoop/yarn/data
+    networks:
+      - bridge
+
+volumes:
+  namenode:
+    driver: local
+  datanode01:
+    driver: local
+  datanode02:
+    driver: local
+  datanode03:
+    driver: local
+
+networks:
+  bridge:
